@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Inertia\Inertia;
 
@@ -14,7 +15,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return inertia('Product/Index');
+        $products = auth()->user()->products()->latest()->get();
+        return inertia('Product/Index', [
+            'products' => ProductResource::collection($products)
+        ]);
     }
 
     /**
