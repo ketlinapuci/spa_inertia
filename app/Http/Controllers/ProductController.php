@@ -49,8 +49,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
-    }
+        return inertia('Product/Show', [
+            'product' => ProductResource::make($product)
+        ]);    }
 
     /**
      * Show the form for editing the specified resource.

@@ -60,8 +60,7 @@ defineProps({
                                     {{ product.weight }}
                                 </td>
                                 <td class="px-6 py-4 space-x-2">
-                                    <a href="#" class="font-medium text-gray-600 hover:underline">Show</a>
-                                    <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                    <Link :href="route('products.show', product.id)" class="font-medium text-gray-600 hover:underline">Show</Link>                                    <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
                                     <a href="#" class="font-medium text-red-600 hover:underline">Delete</a>
                                 </td>
                             </tr>
