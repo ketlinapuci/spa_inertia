@@ -41,7 +41,9 @@ class ProductController extends Controller
     {
         $request->user()->products()->create($request->validated());
 
-        return redirect()->route('products.index');
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Product has been created successfully.');
     }
 
     /**
@@ -70,7 +72,9 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
 
-        return redirect()->route('products.index');    }
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Product has been updated successfully.');    }
 
     /**
      * Remove the specified resource from storage.
@@ -79,6 +83,7 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return redirect()->route('products.index');
-    }
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Product has been deleted successfully.');    }
 }
