@@ -3,6 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Pagination from '@/Components/Pagination.vue';
 import Sortable from '@/Components/Sortable.vue';
+import Checkbox from '@/Components/Checkbox.vue';
+import { ref } from "vue";
+
+const selectedIds = ref([]);
 
 const deleteRow = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
@@ -47,7 +51,8 @@ const handleSearch = (event) => {
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-end pb-6">
+             <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-6">
+                    {{ selectedIds }}
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
@@ -59,6 +64,9 @@ const handleSearch = (event) => {
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
                             <tr>
+                                <th scope="col" class="px-6 py-3" width="5">
+                                    <Checkbox />
+                                </th>
                                 <th scope="col" class="px-6 py-3" width="5">
                                     No
                                 </th>
@@ -81,6 +89,9 @@ const handleSearch = (event) => {
                         </thead>
                         <tbody>
                             <tr v-for="(product, index) in products.data" :key="product.id" class="bg-white border-b hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <Checkbox :value="product.id" v-model:checked="selectedIds" />
+                                </td>
                                 <td class="px-6 py-4">
                                     {{ products.meta.from + index }}
                                 </td>
