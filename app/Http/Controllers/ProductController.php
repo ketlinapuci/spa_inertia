@@ -108,5 +108,20 @@ class ProductController extends Controller
 
         return redirect()
             ->route('products.index')
-            ->with('message', 'Product has been deleted successfully.');    }
+            ->with('message', 'Product has been deleted successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function bulkDestroy(string $ids)
+    {
+        $ids = explode(',', $ids);
+        Product::destroy($ids);
+
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Selected products deleted successfully.');
+    }
 }
+
