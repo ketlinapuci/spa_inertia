@@ -1,10 +1,25 @@
 <script setup>
 import Modal from '@/Components/Modal.vue';
+import { useForm } from "@inertiajs/vue3";
+
+const form = useForm({
+    product_ids: [],
+    category_id: ""
+})
+
 const props = defineProps({
     show: {
         type: Boolean,
         default: false
-    }
+    },
+    categories: {
+        type: Array,
+        required: true
+    },
+    products: {
+        type: Array,
+        required: true
+	}
 })
 const emit = defineEmits(['close'])
 </script>
@@ -29,27 +44,23 @@ const emit = defineEmits(['close'])
                     <div class="col-span-6 sm:col-span-6">
                         <label class="block mb-2 text-sm font-medium text-gray-900 ">Products</label>
                         <ul>
-                            <li class="flex items-center">
+                            <li class="flex items-center" v-for="product in products" :key="product.id">
                                 <svg class="w-3.5 h-3.5 me-2 text-cyan-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                                 </svg>
-                                At least one lowercase character
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-3.5 h-3.5 me-2 text-cyan-500 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                                </svg>
-                                At least one lowercase character
+                                {{ product.name }}
                             </li>
                         </ul>
                     </div>
                     <div class="col-span-6 sm:col-span-6">
                         <label for="category_id" class="block mb-2 text-sm font-medium text-gray-900 ">Category</label>
-                        <select name="category_id" id="category_id" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5" required="">
-                            <option value="">Category 1</option>
-                            <option value="">Category 2</option>
-                            <option value="">Category 3</option>
+                        <select name="category_id" v-model="form.category_id" id="category_id" 
+                            class="shadow-sm border text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                            :class="{ 'bg-red-50 border-red-500 text-red-900': form.errors.category_id, 'bg-gray-50 border-gray-300 text-gray-900': !form.errors.category_id}">
+                            <option value="">Select a category</option>
+                            <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
                         </select>
+                        <div class="font-sm text-red-500 mt-2" v-if="form.errors.category_id">{{ form.errors.category_id }}</div>
                     </div>
                 </div>
             </div>
