@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request as HttpRequest;
 use Inertia\Inertia;
+use App\Http\Requests\BulkUpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -98,7 +99,23 @@ class ProductController extends Controller
 
         return redirect()
             ->route('products.index')
-            ->with('message', 'Product has been updated successfully.');    }
+            ->with('message', 'Product has been updated successfully.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function bulkUpdate(BulkUpdateProductRequest $request)
+    {
+        Product::whereIn('id', $request->product_ids)
+            ->update([
+                'category_id' => $request->category_id
+            ]);
+        return redirect()
+            ->route('products.index')
+            ->with('message', 'Selected products updated successfully.');
+    }
+
 
     /**
      * Remove the specified resource from storage.
